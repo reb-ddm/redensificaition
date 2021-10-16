@@ -13,7 +13,7 @@ prediction_key = os.environ.get("prediction_key")
 prediction_base_url = os.environ.get("prediction_base_url")
 
 st.write("# redensificAItors")
-st.write("### Using Azure CustomVision.ai to classify zones in an aerial image based on their redensification potential")
+st.write("### Using Azure CustomVision.ai to classify redensification potential zones in aerial images")
 
 # file uploader
 uploaded_file = st.file_uploader("Upload Files", type=['png', 'jpeg'])

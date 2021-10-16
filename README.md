@@ -1,5 +1,16 @@
 # redensificAItion
 
+## Dependencies
+
+You need Python3 and pip.
+
+Install dependencies with:
+
+```
+pip install streamlit
+pip install python-dotenv
+```
+
 ## How to run the application
 
 First you need to set the environment variables `prediction_key` and `prediction_base_url` in the `.env` file. You can find them on Azure when you publish a Custom Vision model.
