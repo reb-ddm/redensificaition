@@ -6,9 +6,11 @@ First you need to set the environment variables `prediction_key` and `prediction
 
 Then run `streamlit run script.py`.
 
-## Usage
+## Features
 
-You can choose a file, which gets sent to Azure for labeling. Then the predicted labels are shown on the browser.
+You can choose a file, which gets sent to Azure for labeling. Then the predicted labels are shown in the app.
+
+It only shows the labels with a probability greater than 20%.
 
 ## How to install wandb (not necessary at the moment)
 

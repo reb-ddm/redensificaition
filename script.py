@@ -2,7 +2,7 @@ import os
 import wandb
 import streamlit as st
 import requests
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import json
 from dotenv import load_dotenv
 
@@ -26,7 +26,7 @@ prediction_base_url = os.environ.get("prediction_base_url")
 
 # # 3. Log metrics over time to visualize performance
 # wandb.log({"loss": 0.1})
-st.write("Hello world")
+st.write("redensificAItors")
 
 # file uploader
 uploaded_file = st.file_uploader("Upload Files", type=['png', 'jpeg'])
@@ -60,7 +60,9 @@ if uploaded_file is not None:
 
             #d.line([top, left, right, top], fill=line_color, width=2)
             d.rectangle([topleft, bottomright], outline=line_color, width=2)
-            # #d.text(position, string, options)
+            font = ImageFont.truetype("AltoneTrial-Regular.ttf", 50)
+            d.text(topleft, prediction['tagName'],
+                   fill=line_color, height=200, font=font)
     # show image
     st.image(im)
     # print actual response from model (for debugging)
