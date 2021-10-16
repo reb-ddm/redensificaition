@@ -12,7 +12,8 @@ load_dotenv()
 prediction_key = os.environ.get("prediction_key")
 prediction_base_url = os.environ.get("prediction_base_url")
 
-st.write("redensificAItors")
+st.write("# redensificAItors")
+st.write("### Using Azure CustomVision.ai to classify zones in an aerial image based on their redensification potential")
 
 # file uploader
 uploaded_file = st.file_uploader("Upload Files", type=['png', 'jpeg'])
@@ -25,7 +26,6 @@ if uploaded_file is not None:
     r = requests.post(prediction_base_url, data=uploaded_file, headers=headers)
     response = r.json()
 
-    
     if 'predictions' in response.keys():
         # open image and draw the predicted labels
         im = Image.open(uploaded_file)
@@ -34,7 +34,7 @@ if uploaded_file is not None:
         imagey = im.size[1]
         for prediction in response['predictions']:
 
-            if(prediction['probability'] > 0.7):
+            if(prediction['probability'] > 0.4):
 
                 left = prediction['boundingBox']['left']
                 top = prediction['boundingBox']['top']
@@ -44,16 +44,26 @@ if uploaded_file is not None:
                 topleft = (left*imagex, top*imagey)
                 bottomright = ((left+width)*imagex, (top+height)*imagey)
 
+                colors = {
+                    "Untouchable": (255, 0, 0),  # red
+                    "Low Redensification Potential":  (255, 165, 0),  # orange
+                    # yellow
+                    "Medium Redensification Potential": (255, 255, 0),
+                    "High Redensification Potential": (2, 156, 7)  # green
+                }
+
                 line_color = (hash(prediction['tagName']) & 255, hash(prediction['tagName']) >> 55, hash(
                     prediction['tagName']) & 17592186044415 >> 35)
 
-                
+                rectangle_color = (0, 0, 0)
+                if prediction['tagName'] in colors.keys():
+                    rectangle_color = colors[prediction['tagName']]
                 d.rectangle([topleft, bottomright],
-                            outline=line_color, width=2)
+                            outline=rectangle_color, width=6)
                 font = ImageFont.truetype("AltoneTrial-Regular.ttf", 50)
-                d.text(topleft, prediction['tagName'],
-                       fill=line_color, height=200, font=font)
+
         # show image
         st.image(im)
+        st.image("colour_legend.png")
     # print actual response from model (for debugging)
     st.write(response)
