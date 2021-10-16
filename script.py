@@ -56,7 +56,8 @@ if uploaded_file is not None:
             topleft = (left*imagex, top*imagey)
             bottomright = ((left+width)*imagex, (top+height)*imagey)
 
-            line_color = (255, 0, 0)
+            line_color = (hash(prediction['tagName']) & 255, hash(prediction['tagName']) >> 55, hash(
+                prediction['tagName']) & 17592186044415 >> 35)
 
             #d.line([top, left, right, top], fill=line_color, width=2)
             d.rectangle([topleft, bottomright], outline=line_color, width=2)
