@@ -1,5 +1,4 @@
 import os
-import wandb
 import streamlit as st
 import requests
 from PIL import Image, ImageDraw, ImageFont
@@ -13,19 +12,6 @@ load_dotenv()
 prediction_key = os.environ.get("prediction_key")
 prediction_base_url = os.environ.get("prediction_base_url")
 
-##weights & biases
-# wandb.login()
-# # 1. Start a W&B run
-# wandb.init(project='redensificaition', entity='redensificators')
-
-# # 2. Save model inputs and hyperparameters
-# config = wandb.config
-# config.learning_rate = 0.01
-
-# # Model training here
-
-# # 3. Log metrics over time to visualize performance
-# wandb.log({"loss": 0.1})
 st.write("redensificAItors")
 
 # file uploader
@@ -48,7 +34,7 @@ if uploaded_file is not None:
         imagey = im.size[1]
         for prediction in response['predictions']:
 
-            if(prediction['probability'] > 0.2):
+            if(prediction['probability'] > 0.7):
 
                 left = prediction['boundingBox']['left']
                 top = prediction['boundingBox']['top']
@@ -61,7 +47,7 @@ if uploaded_file is not None:
                 line_color = (hash(prediction['tagName']) & 255, hash(prediction['tagName']) >> 55, hash(
                     prediction['tagName']) & 17592186044415 >> 35)
 
-                #d.line([top, left, right, top], fill=line_color, width=2)
+                
                 d.rectangle([topleft, bottomright],
                             outline=line_color, width=2)
                 font = ImageFont.truetype("AltoneTrial-Regular.ttf", 50)
